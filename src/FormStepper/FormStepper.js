@@ -5,6 +5,8 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import PersonalInfoForm from "../Forms/PersonalInfoForm";
+import WorkIcon from '@material-ui/icons/Work';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,13 +28,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-    return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+    return ['Personal info', 'Work experience', 'Education', 'Skills'];
 }
 
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return 'Step 1: Select campaign settings...';
+            return <PersonalInfoForm/>;
         case 1:
             return 'Step 2: What is an ad group anyways?';
         case 2:
