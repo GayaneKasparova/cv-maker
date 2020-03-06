@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import {Button, Typography} from "@material-ui/core";
-import HorizontalNonLinearAlternativeLabelStepper from "../FormStepper/FormStepper"
+import FormStepper from "../../components/FormStepper/FormStepper"
 
 const Main = () => {
     const [startPoint, setStartPoint] = useState(true);
@@ -32,7 +32,7 @@ const Main = () => {
                                 Get Started
                             </Button>
                         </>
-                    : <HorizontalNonLinearAlternativeLabelStepper/>
+                    : <FormStepper/>
                 }
             </Container>
         </main>

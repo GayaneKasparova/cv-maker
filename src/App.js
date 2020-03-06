@@ -1,7 +1,7 @@
 import React from 'react';
 import {CssBaseline} from "@material-ui/core";
 import Header from "./layout/Header/Header";
-import Main from "./Main/Main";
+import Main from "./containers/Main/Main";
 import Footer from "./layout/Footer/Footer";
 import './App.css';
 
