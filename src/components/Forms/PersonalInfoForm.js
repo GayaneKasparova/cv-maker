@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 const PersonalInfoForm = () => {
-    const store = useSelector(store => store)
     return (
         <form action="">
             <Grid
@@ -14,7 +13,8 @@ const PersonalInfoForm = () => {
                     <TextField
                         id="fullName"
                         label="Full name"
-                        variant={"outlined"}/>
+                        variant={"outlined"}
+                        onInput={storeInputValue}/>
                 </Grid>
                 <Grid item xs>
                     <TextField
