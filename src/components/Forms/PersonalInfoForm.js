@@ -1,11 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import useInputHandler from "../../actions/useInputHandler";
+import {useSelector} from "react-redux";
 
 const PersonalInfoForm = () => {
+    const personalInfo = useSelector(state => state);
+    console.log(personalInfo)
     return (
-        <form action="">
+        <form action="" datatype="personalInfo">
             <Grid
                 container
                 spacing={5}>
@@ -14,13 +17,14 @@ const PersonalInfoForm = () => {
                         id="fullName"
                         label="Full name"
                         variant={"outlined"}
-                        onInput={storeInputValue}/>
+                        onBlur={useInputHandler}/>
                 </Grid>
                 <Grid item xs>
                     <TextField
                         id="email"
                         label="Email"
-                        variant={"outlined"}/>
+                        variant={"outlined"}
+                        onInput={useInputHandler}/>
                 </Grid>
             </Grid>
         </form>

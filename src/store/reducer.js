@@ -1,6 +1,6 @@
 const initialState = {
     personalInfo: {
-        name: '',
+        fullName: '',
         email: '',
     },
     workExperience: {
@@ -13,7 +13,9 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case "STORE_INPUT_VALUE":
-            state[action.infoType][action.key] = action.value;
+            state[action.blockName][action.key] = action.value;
+            break;
+        default: console.error("Wrong action type");
     }
     return state
 }
