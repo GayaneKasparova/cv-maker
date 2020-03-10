@@ -1,17 +1,21 @@
 import React from 'react';
 import {CssBaseline} from "@material-ui/core";
 import Header from "./layout/Header/Header";
-import Main from "./containers/Main/Main";
+import Main from "./components/Main/Main";
 import Footer from "./layout/Footer/Footer";
 import './App.css';
+import DataContextProvider from "./context/dataContextProvider";
 
-function App() {
+const App = () => {
     return (
         <div className="App">
-            <CssBaseline/>
-            <Header/>
-            <Main/>
-            <Footer/>
+            <DataContextProvider>
+                <CssBaseline/>
+                <Header/>
+                <Main/>
+                <Footer/>
+            </DataContextProvider>
+
         </div>
     );
 }

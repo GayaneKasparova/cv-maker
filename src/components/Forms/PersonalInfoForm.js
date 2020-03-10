@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useCallback, useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import useInputHandler from "../../actions/useInputHandler";
-import {useSelector} from "react-redux";
+import {storeInputValue} from '../../actions/actions'
+import {DataDispatchContext, DataStateContext} from "../../context/dataContextProvider";
+import serializeInputData from "../../helpers/serializeInputData";
 
 const PersonalInfoForm = () => {
-    const personalInfo = useSelector(state => state);
-    console.log(personalInfo)
+    const dataState = useContext(DataStateContext);
+    const dataDispatch = useContext(DataDispatchContext);
+
+    const storeData = useCallback((event) => {
+            const inputData = serializeInputData(event, "personalInfo");
+            dataDispatch({type: storeInputValue, data: inputData});
+        }
+    );
+
     return (
-        <form action="" datatype="personalInfo">
+        <form action="">
             <Grid
                 container
                 spacing={5}>
@@ -17,14 +25,16 @@ const PersonalInfoForm = () => {
                         id="fullName"
                         label="Full name"
                         variant={"outlined"}
-                        onBlur={useInputHandler}/>
+                        onBlur={storeData}
+                    />
                 </Grid>
                 <Grid item xs>
                     <TextField
                         id="email"
                         label="Email"
                         variant={"outlined"}
-                        onInput={useInputHandler}/>
+                        onBlur={storeData}
+                    />
                 </Grid>
             </Grid>
         </form>

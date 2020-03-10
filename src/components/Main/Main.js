@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import {Button, Typography} from "@material-ui/core";
-import FormStepper from "../../components/FormStepper/FormStepper"
+import FormStepper from "../FormStepper/FormStepper"
 
 const Main = () => {
     const [startPoint, setStartPoint] = useState(true);
