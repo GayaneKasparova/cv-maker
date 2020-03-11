@@ -1,21 +1,34 @@
 import React, {createContext} from "react";
-import {storeInputValue} from '../actions/actions'
+import {STORE_PERSONAL_INFO, STORE_SKILLS} from '../actions/actions'
 
 export const DataStateContext = createContext();
 export const DataDispatchContext = createContext();
 
 const initialState = {
-    data: []
+    personalInfo: {},
+    skills: [],
+    workExperience: [],
+    education: []
 }
 function reducer (state, action) {
-    console.log(state)
     const dataToStore = action.data;
+
     switch (action.type) {
-        case storeInputValue:
+        case STORE_PERSONAL_INFO:
+            const newParam = {};
+            newParam[dataToStore.key] = dataToStore.value;
+
             return {
                 ...state,
-                data: [...state.data, dataToStore]
+                personalInfo: {...state.personalInfo, ...newParam}
             };
+
+        case STORE_SKILLS: {
+            return {
+                ...state,
+                skills: [...state.skills, dataToStore],
+            };
+        }
 
         default:
             return {

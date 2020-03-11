@@ -1,1 +1,2 @@
-export const storeInputValue = "STORE_INPUT_VALUE";
+export const STORE_PERSONAL_INFO = "STORE_PERSONAL_INFO";
+export const STORE_SKILLS = "STORE_SKILLS";

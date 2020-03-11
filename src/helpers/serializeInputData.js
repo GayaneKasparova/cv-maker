@@ -1,9 +1,7 @@
- const serializeInputData = (event, dataType) => {
-
+ const serializeInputData = (event) => {
     return ({
         'key': event.target.id,
         'value': event.target.value,
-        'dataType': dataType
     })
 }
 
