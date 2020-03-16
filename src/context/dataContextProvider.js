@@ -1,5 +1,9 @@
 import React, {createContext} from "react";
-import {STORE_PERSONAL_INFO, STORE_SKILLS} from '../actions/actions'
+import {
+    STORE_PERSONAL_INFO,
+    STORE_SKILLS,
+    DELETE_SKILLS
+} from '../actions/actions'
 
 export const DataStateContext = createContext();
 export const DataDispatchContext = createContext();
@@ -11,12 +15,12 @@ const initialState = {
     education: []
 }
 function reducer (state, action) {
-    const dataToStore = action.data;
-
+    const data = action.data;
     switch (action.type) {
         case STORE_PERSONAL_INFO:
+            // Store given data's key and value in new obj
             const newParam = {};
-            newParam[dataToStore.key] = dataToStore.value;
+            newParam[data.key] = data.value;
 
             return {
                 ...state,
@@ -26,8 +30,15 @@ function reducer (state, action) {
         case STORE_SKILLS: {
             return {
                 ...state,
-                skills: [...state.skills, dataToStore],
+                skills: [...state.skills, data],
             };
+        }
+
+        case DELETE_SKILLS: {
+            return {
+                ...state,
+                skills: state.skills.filter((skill, index) => index !== data)
+            }
         }
 
         default:

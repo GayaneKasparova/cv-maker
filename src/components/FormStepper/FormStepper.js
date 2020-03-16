@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PersonalInfoForm from "../Forms/PersonalInfoForm";
 import WorkIcon from '@material-ui/icons/Work';
+import SkillsForm from "../Forms/SkillsForm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,15 +29,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-    return ['Personal info', 'Work experience', 'Education', 'Skills'];
+    return ['Personal info', 'Skills', 'Work experience', 'Education'];
 }
 
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <PersonalInfoForm/>;
+            return <PersonalInfoForm />;
         case 1:
-            return 'Step 2: What is an ad group anyways?';
+            return <SkillsForm />;
         case 2:
             return 'Step 3: This is the bit I really care about!';
         default:
@@ -53,25 +54,6 @@ const FormStepper = () => {
 
     const totalSteps = () => {
         return getSteps().length;
-    };
-
-    const isStepOptional = step => {
-        return step === 1;
-    };
-
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
-        setSkipped(prevSkipped => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
     };
 
     const skippedSteps = () => {
@@ -144,9 +126,6 @@ const FormStepper = () => {
                 {steps.map((label, index) => {
                     const stepProps = {};
                     const buttonProps = {};
-                    if (isStepOptional(index)) {
-                        buttonProps.optional = <Typography variant="caption">Optional</Typography>;
-                    }
                     if (isStepSkipped(index)) {
                         stepProps.completed = false;
                     }
@@ -170,43 +149,25 @@ const FormStepper = () => {
                             All steps completed - you&apos;re finished
                         </Typography>
                         <Button onClick={handleReset}>Reset</Button>
+                        <Button onClick={handleBack} className={classes.button}>
+                            Back
+                        </Button>
                     </div>
                 ) : (
                     <div>
-                        <div>{getStepContent(activeStep)}</div>
-                        <div>
+                        <div style={{marginTop: '30px'}}>{getStepContent(activeStep)}</div>
+                        <div style={{
+                            display: 'flex',
+                            marginTop: "30px",
+                            justifyContent: "center",
+                        }}>
                             <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                 Back
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleNext}
-                                className={classes.button}
-                            >
-                                Next
-                            </Button>
-                            {isStepOptional(activeStep) && !completed.has(activeStep) && (
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleSkip}
-                                    className={classes.button}
-                                >
-                                    Skip
-                                </Button>
-                            )}
 
-                            {activeStep !== steps.length &&
-                            (completed.has(activeStep) ? (
-                                <Typography variant="caption" className={classes.completed}>
-                                    Step {activeStep + 1} already completed
-                                </Typography>
-                            ) : (
-                                <Button variant="contained" color="primary" onClick={handleComplete}>
-                                    {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
-                                </Button>
-                            ))}
+                            <Button variant="contained" color="primary" onClick={handleComplete}>
+                                {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Next'}
+                            </Button>
                         </div>
                     </div>
                 )}
