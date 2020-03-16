@@ -40,10 +40,21 @@ const SkillsForm = () => {
     const useStyles = makeStyles(theme => ({
         root: {
             marginTop: '15px',
-            padding: '2px 4px',
+            padding: '2px 5px',
             display: 'flex',
             alignItems: 'center',
             width: 400,
+        },
+        chips: {
+            marginTop: '15px',
+            padding: '5px',
+            display: 'flex',
+            alignItems: 'center',
+            width: 400,
+            flexWrap: 'wrap'
+        },
+        chip: {
+          margin: '3px'
         },
         input: {
             marginLeft: theme.spacing(1),
@@ -62,24 +73,30 @@ const SkillsForm = () => {
 
     return (
         <>
-            <div>
-                {
-                    addedSkills && addedSkills.map((skill, index) => {
-                        return <Chip
-                            key={index}
-                            label={skill}
-                            onDelete={() => deleteSkill(index)}
-                        />
-                    })
-                }
-            </div>
+            {
+                addedSkills.length ?
+                <Paper className={classes.chips}>
+                    {
+                        addedSkills.map((skill, index) => {
+                            return <Chip
+                                key={index}
+                                className={classes.chip}
+                                label={skill}
+                                onDelete={() => deleteSkill(index)}
+                                variant="outlined"
+                                color="primary"
+                            />
+                        })
+                    }
+                </Paper> : ''
+            }
             <Paper
                 component="form"
                 className={classes.root}>
                 <InputBase
                     className={classes.input}
                     placeholder="Add skills"
-                    inputProps={{'skills': 'search google maps'}}
+                    autoFocus={true}
                     ref={skillsInput}
                     id="skills"
                     onKeyPress={keyPressed}

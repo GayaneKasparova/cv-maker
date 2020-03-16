@@ -30,6 +30,7 @@ const PersonalInfoForm = () => {
                         label="Full name"
                         variant={"outlined"}
                         onInput={storeData}
+                        autoFocus={true}
                     />
                 </Grid>
                 <Grid item xs>

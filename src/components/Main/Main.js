@@ -28,6 +28,7 @@ const Main = () => {
                                 style={{
                                     margin: "30px auto"
                                 }}
+                                autoFocus={true}
                                 onClick={() => setStartPoint(false)}>
                                 Get Started
                             </Button>
