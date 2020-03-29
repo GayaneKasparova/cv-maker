@@ -4,29 +4,30 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import PersonalInfoForm from "../Forms/PersonalInfoForm";
-import WorkIcon from '@material-ui/icons/Work';
 import SkillsForm from "../Forms/SkillsForm";
 import WorkExperienceForm from "../Forms/WorkExperienceForm";
 import Result from "../Result/Result";
+import StepLabel from "@material-ui/core/StepLabel";
+import StepContent from "@material-ui/core/StepContent";
+import {ColorlibStepIcon, ColorlibConnector} from "../common/ColorlibStepIcon";
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
     },
     button: {
-        marginRight: theme.spacing(1),
-    },
-    backButton: {
-        marginRight: theme.spacing(1),
-    },
-    completed: {
-        display: 'inline-block',
-    },
-    instructions: {
         marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
+        marginRight: theme.spacing(1),
+    },
+    actionsContainer: {
+        marginBottom: theme.spacing(2),
+    },
+    resetContainer: {
+        padding: theme.spacing(3),
+    },
+    stepButton: {
+        justifyContent: 'flex-start'
     },
 }));
 
@@ -37,11 +38,11 @@ function getSteps() {
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <PersonalInfoForm />;
+            return <PersonalInfoForm/>;
         case 1:
-            return <SkillsForm />;
+            return <SkillsForm/>;
         case 2:
-            return <WorkExperienceForm />;
+            return <WorkExperienceForm/>;
         default:
             return 'Unknown step';
     }
@@ -50,7 +51,8 @@ function getStepContent(step) {
 const FormStepper = () => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
-    const [completed, setCompleted] = useState(false);
+    const [finished, setFinished] = useState(false);
+    const [completed, setCompleted] = useState({});
     const steps = getSteps();
 
     const totalSteps = () => {
@@ -62,72 +64,84 @@ const FormStepper = () => {
     };
 
     const handleNext = () => {
-        const newActiveStep = activeStep + 1;
+        if (!isLastStep()) {
+            const newActiveStep = activeStep + 1;
+            setActiveStep(newActiveStep);
 
-        setActiveStep(newActiveStep);
+            const newCompleted = completed;
+            newCompleted[activeStep] = true;
+            setCompleted(newCompleted);
+        } else
+            setFinished(true);
     };
 
     const handleBack = () => {
-        if (completed) {
-            setCompleted(false)
-        };
+        if (finished) {
+            setFinished(false)
+        }
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
     const handleStep = step => () => {
         setActiveStep(step);
-    };
-
-    const handleComplete = () => {
-        setCompleted(true);
+        if (finished) {
+            setFinished(false)
+        }
     };
 
     return (
         <div className={classes.root}>
             {
-                !completed ? <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                {steps.map((label, index) => {
-                    const stepProps = {};
-                    const buttonProps = {};
-                    return (
-                        <Step key={label} {...stepProps}>
-                            <StepButton
-                                onClick={handleStep(index)}
-                                {...buttonProps}
-                            >
-                                {label}
-                            </StepButton>
-                        </Step>
-                    );
-                })}
-            </Stepper> : ''}
+                <Stepper
+                    activeStep={activeStep}
+                    orientation="vertical"
+                    connector={<ColorlibConnector/>}>
+                    {steps.map((label, index) => {
+                        return (
+                            <Step key={label}>
+                                <StepLabel StepIconComponent={ColorlibStepIcon}>
+                                    <StepButton
+                                        className={classes.stepButton}
+                                        onClick={handleStep(index)}>
+                                        {label}
+                                    </StepButton>
+                                </StepLabel>
+                                <StepContent>
+                                    {getStepContent(index)}
+                                    <div className={classes.actionsContainer}>
+                                        {
+                                            !finished && <div>
+                                                <Button
+                                                    disabled={activeStep === 0}
+                                                    onClick={handleBack}
+                                                    className={classes.button}
+                                                >
+                                                    Back
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleNext}
+                                                    className={classes.button}
+                                                >
+                                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                                </Button>
+                                            </div>
+                                        }
+                                    </div>
+                                </StepContent>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+            }
             <div>
                 {
-                    completed ? (
-                    <div>
-                        <Result />
-                        <Button onClick={handleBack} className={classes.button}>
-                            Back
-                        </Button>
-                    </div>
-                ) : (
-                    <div>
-                        <div style={{marginTop: '30px'}}>{getStepContent(activeStep)}</div>
-                        <div style={{
-                            display: 'flex',
-                            marginTop: "30px",
-                            justifyContent: "center",
-                        }}>
-                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                                Back
-                            </Button>
-
-                            <Button variant="contained" color="primary" onClick={!isLastStep() ? handleNext : handleComplete}>
-                                {isLastStep() ? 'Finish' : 'Next'}
-                            </Button>
+                    finished ? (
+                        <div>
+                            <Result/>
                         </div>
-                    </div>
-                )}
+                    ) : ""}
             </div>
         </div>
     );

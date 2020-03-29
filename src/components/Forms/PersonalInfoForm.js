@@ -4,10 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import {STORE_PERSONAL_INFO} from '../../actions/actions'
 import {DataDispatchContext, DataStateContext} from "../../context/dataContextProvider";
 import serializeInputData from "../../helpers/serializeInputData";
-import {Paper} from "@material-ui/core";
+import ImageUpload from "../common/ImageUpolad";
 
 const PersonalInfoForm = () => {
-    const personalInfo = useContext(DataStateContext).personalInfo;
+    const {personalInfo} = useContext(DataStateContext);
     const dataDispatch = useContext(DataDispatchContext);
 
     const storeData = (event) => {
@@ -19,11 +19,11 @@ const PersonalInfoForm = () => {
     }
 
     return (
-        <Paper component="form">
+        <form>
             <Grid
                 container
                 spacing={5}>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         value={personalInfo.fullName ? personalInfo.fullName : ''}
                         id="fullName"
@@ -33,7 +33,7 @@ const PersonalInfoForm = () => {
                         autoFocus={true}
                     />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         value={personalInfo.email ? personalInfo.email : ''}
                         id="email"
@@ -47,7 +47,7 @@ const PersonalInfoForm = () => {
             <Grid
                 container
                 spacing={5}>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         value={personalInfo.phone ? personalInfo.phone : ''}
                         id="phone"
@@ -56,7 +56,7 @@ const PersonalInfoForm = () => {
                         onInput={storeData}
                     />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         value={personalInfo.website ? personalInfo.website : ''}
                         id="website"
@@ -70,7 +70,7 @@ const PersonalInfoForm = () => {
             <Grid
                 container
                 spacing={5}>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         value={personalInfo.addressLine1 ? personalInfo.addressLine1 : ''}
                         id="addressLine1"
@@ -79,7 +79,7 @@ const PersonalInfoForm = () => {
                         onInput={storeData}
                     />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         value={personalInfo.addressLine2 ? personalInfo.addressLine2 : ''}
                         id="addressLine2"
@@ -89,7 +89,27 @@ const PersonalInfoForm = () => {
                     />
                 </Grid>
             </Grid>
-        </Paper>
+            <Grid
+                container
+                spacing={5}>
+                <Grid item xs={12} sm={6}>
+                    {personalInfo.photo && <img src={personalInfo.photo} alt=""/>}
+                    <ImageUpload
+                        id='photo'
+                        onChange={storeData}/>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        id="summary"
+                        label="Summary"
+                        multiline
+                        rowsMax="4"
+                        value={personalInfo.summary ? personalInfo.summary : ''}
+                        onInput={storeData}
+                    />
+                </Grid>
+            </Grid>
+        </form>
     );
 }
 

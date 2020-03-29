@@ -1,7 +1,14 @@
  const serializeInputData = (event) => {
+     const eventTarget = event.target;
+     let value = eventTarget.value;
+
+     if (eventTarget.type === 'file') {
+         value = eventTarget.files[0] ? URL.createObjectURL(eventTarget.files[0]) : ''
+     }
+
     return ({
-        'key': event.target.id,
-        'value': event.target.value,
+        'key': eventTarget.id,
+        'value': value,
     })
 }
 

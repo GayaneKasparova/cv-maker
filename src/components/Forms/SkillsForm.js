@@ -1,13 +1,13 @@
-import React, {useCallback, useContext, useEffect, useRef} from 'react';
+import React, {useContext, useRef} from 'react';
 import {STORE_SKILLS, DELETE_SKILLS} from '../../actions/actions'
 import {DataDispatchContext, DataStateContext} from "../../context/dataContextProvider";
 import Chip from "@material-ui/core/Chip";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {makeStyles} from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 
 const SkillsForm = () => {
     const dataDispatch = useContext(DataDispatchContext);
@@ -43,18 +43,16 @@ const SkillsForm = () => {
             padding: '2px 5px',
             display: 'flex',
             alignItems: 'center',
-            width: 400,
         },
         chips: {
             marginTop: '15px',
             padding: '5px',
             display: 'flex',
             alignItems: 'center',
-            width: 400,
             flexWrap: 'wrap'
         },
         chip: {
-          margin: '3px'
+            margin: '3px'
         },
         input: {
             marginLeft: theme.spacing(1),
@@ -62,10 +60,6 @@ const SkillsForm = () => {
         },
         iconButton: {
             padding: 10,
-        },
-        divider: {
-            height: 28,
-            margin: 4,
         },
     }));
 
@@ -75,43 +69,45 @@ const SkillsForm = () => {
         <>
             {
                 addedSkills.length ?
-                <Paper className={classes.chips}>
-                    {
-                        addedSkills.map((skill, index) => {
-                            return <Chip
-                                key={index}
-                                className={classes.chip}
-                                label={skill}
-                                onDelete={() => deleteSkill(index)}
-                                variant="outlined"
-                                color="primary"
-                            />
-                        })
-                    }
-                </Paper> : ''
+                    <div className={classes.chips}>
+                        {
+                            addedSkills.map((skill, index) => {
+                                return <Chip
+                                    key={index}
+                                    className={classes.chip}
+                                    label={skill}
+                                    onDelete={() => deleteSkill(index)}
+                                    variant="outlined"
+                                    color="primary"
+                                />
+                            })
+                        }
+                    </div> : ''
             }
-            <Paper
-                component="form"
-                className={classes.root}>
-                <InputBase
-                    className={classes.input}
-                    placeholder="Add skills"
-                    autoFocus={true}
-                    ref={skillsInput}
-                    id="skills"
-                    onKeyPress={keyPressed}
-                />
-                <Divider
-                    className={classes.dividor}
-                    orientation="vertical"/>
-                <IconButton
-                    className={classes.iconButton}
-                    color="primary"
-                    aria-label="skills"
-                    onClick={addSkill}>
-                    <AddCircleOutlineIcon/>
-                </IconButton>
-            </Paper>
+            <form>
+                <Grid
+                    container
+                    spacing={5}>
+                    <Grid item xs={12} className={classes.root}>
+                        <TextField
+                            className={classes.input}
+                            placeholder="Add skills"
+                            autoFocus={true}
+                            formControl={true}
+                            ref={skillsInput}
+                            id="skills"
+                            onKeyPress={keyPressed}
+                        />
+                        <IconButton
+                            className={classes.iconButton}
+                            color="primary"
+                            aria-label="skills"
+                            onClick={addSkill}>
+                            <AddCircleOutlineIcon/>
+                        </IconButton>
+                    </Grid>
+                </Grid>
+            </form>
         </>
     );
 }
